@@ -157,6 +157,7 @@ require 'cek.php';
                                         <tr>
                                             <th>No</th>
                                             <th>Nama Customer</th>
+                                            <th>Nomer</th>
                                             <th>Total Order</th>
                                             <th>Total Pesanan</th>
                                             <th>Total Transaksi</th>
@@ -183,6 +184,7 @@ require 'cek.php';
                                             <tr>
                                                 <td><?= $i++; ?></td>
                                                 <td><?= $namacustomer; ?></td>
+                                                <td><?= $numbercustomer; ?></td>
                                                 <td><?= $totalorder . ' Kali'; ?></td>
                                                 <td><?= $totalpesanan; ?></td>
                                                 <td><?= 'Rp. ' . $totaltransaksi; ?></td>

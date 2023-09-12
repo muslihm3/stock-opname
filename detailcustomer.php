@@ -82,6 +82,7 @@ while ($row = mysqli_fetch_array($ambil)) {
 
                 </div>
                 <div class="sidebar-brand-text mx-3">ONTY</sup></div>
+                
             </a>
 
             <!-- Divider -->
@@ -186,6 +187,10 @@ while ($row = mysqli_fetch_array($ambil)) {
                     <div class="card shadow mb-4 mt-4">
                         <div class="card-header py-3">
                             <h2><?= $namacustomer ?></h2>
+                            <!-- Button to Open the Modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                Pesanan Masuk
+                            </button>
                         </div>
 
                         <div class="card-body">
@@ -342,6 +347,37 @@ while ($row = mysqli_fetch_array($ambil)) {
         <i class="fas fa-angle-up"></i>
     </a>
 
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Pesanan Masuk</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <form method="post">
+                    <div class="modal-body">
+
+                        <input type="hidden" name="customernya" value="<?= $idcustomer; ?>">
+                        <input type="Text" name="pesanan" placeholder="Pesanan" class="form-control" required>
+                        <br>
+                        <input type="number" name="qty" placeholder="Jumlah" class="form-control" required>
+                        <br>
+                        <input type="number" name="total" placeholder="Transaksi" class="form-control" required>
+                        <br>
+
+                        <button type="submit" class="btn btn-primary" name="pesananmasuk"> Submit </button>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

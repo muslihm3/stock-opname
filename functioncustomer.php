@@ -5,19 +5,48 @@ session_start();
 $conn = mysqli_connect("localhost", "root", "", "admin");
 
 //menambah customer
+// if (isset($_POST['addnewCustomer'])) {
+//     $namacustomer = $_POST['namacustomer'];
+//     $numbercustomer = $_POST['numbercustomer'];
+//     $emailcustomer = $_POST['emailcustomer'];
+
+//     $addtotable = mysqli_query($conn, "insert into customer (namacustomer, numbercustomer, emailcustomer) values('$namacustomer','$numbercustomer','$emailcustomer')");
+//     if ($addtotable) {
+//         header('location:customer.php');
+//     } else {
+//         echo 'Gagal';
+//         header('location:customer.php');
+//     }
+// }
 if (isset($_POST['addnewCustomer'])) {
     $namacustomer = $_POST['namacustomer'];
     $numbercustomer = $_POST['numbercustomer'];
     $emailcustomer = $_POST['emailcustomer'];
 
-    $addtotable = mysqli_query($conn, "insert into customer (namacustomer, numbercustomer, emailcustomer) values('$namacustomer','$numbercustomer','$emailcustomer')");
-    if ($addtotable) {
-        header('location:customer.php');
+    // Cek apakah nomor customer sudah ada dalam database
+    $cekNomorCustomer = mysqli_query($conn, "SELECT * FROM customer WHERE numbercustomer = '$numbercustomer'");
+    $count = mysqli_num_rows($cekNomorCustomer);
+
+    if ($count > 0) {
+        // Nomor customer sudah ada dalam database, tampilkan pesan kesalahan
+        echo "<script>alert('Nomor customer sudah ada dalam database.')</script>";
     } else {
-        echo 'Gagal';
-        header('location:customer.php');
+        // Nomor customer belum ada dalam database, tambahkan pelanggan baru
+        $addcustomer = mysqli_query($conn, "INSERT INTO customer (namacustomer, numbercustomer, emailcustomer) VALUES ('$namacustomer','$numbercustomer','$emailcustomer')");
+
+        if ($addcustomer) {
+            echo "<script>alert('Pelanggan berhasil ditambahkan.')</script>";
+        } else {
+            echo "<script>alert('Gagal menambahkan pelanggan.')</script>";
+        }
     }
 }
+
+
+
+
+
+
 
 //menambah pesanan
 if (isset($_POST['pesananmasuk'])) {
