@@ -187,7 +187,7 @@ require 'cek.php';
                                                 <td><?= $numbercustomer; ?></td>
                                                 <td><?= $totalorder . ' Kali'; ?></td>
                                                 <td><?= $totalpesanan; ?></td>
-                                                <td><?= 'Rp. ' . $totaltransaksi; ?></td>
+                                                <td><?= 'Rp. ' .  number_format( $totaltransaksi,0,",",".")  ?></td>
                                                 <td>
                                                     <a href="detailcustomer.php?id=<?= $idc; ?>" class="btn btn-info">View</a>
                                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit<?= $idc; ?>">

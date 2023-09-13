@@ -165,9 +165,10 @@ require 'cek.php';
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Tanggal</th>
+                                            <th>Tanggal Transaksi</th>
                                             <th>Nama Customer</th>
                                             <th>Pesanan</th>
+                                            <th>Outlet</th>
                                             <th>Jumlah</th>
                                             <th>Transaksi</th>
                                             <th>Setting</th>
@@ -193,7 +194,8 @@ require 'cek.php';
 
 
                                         while ($data = mysqli_fetch_array($ambilpesanan)) {
-                                            $tanggal = $data['tanggal'];
+                                            $tanggal = $data['tanggal_transaksi'];
+                                            $outlet_pesanan = $data['outlet'];
                                             $namacustomer = $data['namacustomer'];
                                             $pesanan = $data['pesanan'];
                                             $jumlah = $data['jumlah'];
@@ -207,8 +209,9 @@ require 'cek.php';
                                                 <td><?= $tanggal; ?></td>
                                                 <td><?= $namacustomer; ?></td>
                                                 <td><?= $pesanan; ?></td>
+                                                <td><?= $outlet_pesanan; ?></td>
                                                 <td><?= $jumlah; ?></td>
-                                                <td><?= 'Rp. ' . $transaksi; ?></td>
+                                                <td><?= 'Rp. ' .  number_format( $transaksi,0,",",".") ?></td>
                                                 <td>
                                                     <a href="detailcustomer.php?id=<?= $idc; ?>" class="btn btn-info">View</a>
                                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit<?= $idp; ?>">
@@ -233,12 +236,45 @@ require 'cek.php';
                                                         <!-- Modal body -->
                                                         <form method="post">
                                                             <div class="modal-body">
-                                                                <input type="Text" name="pesanan" value="<?= $pesanan ?>" class="form-control" required>
+                                                                
+                                                                <!-- Input untuk jenis pesanan -->
+                                                                <div class="form-group">
+                                                                    <label for="pesanan">Pesanan:</label>
+                                                                    <input type="text" name="pesanan" value="<?= $pesanan ?>" class="form-control" required>
+                                                                </div>
+
+                                                                <!-- Dropdown untuk memilih jenis pesanan -->
+                                                                <div class="form-group">
+                                                                    <label for="outlet_pesanan">Outlet Pesanan:</label>
+                                                                     <select class="form-control" id="outlet_pesanan" name="outlet_pesanan">
+                                                                        <option value="Onty 1" <?= ($outlet_pesanan == 'Onty 1') ? 'selected' : ''; ?>>Onty 1</option>
+                                                                        <option value="Onty 2" <?= ($outlet_pesanan == 'Onty 2') ? 'selected' : ''; ?>>Onty 2</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <!-- Input untuk jumlah pesanan (qty) -->
+                                                                <div class="form-group">
+                                                                    <label for="qty">Jumlah:</label>
+                                                                    <input type="number" name="jumlah" value="<?= $jumlah ?>" class="form-control" required>
+                                                                </div>
+
+                                                                <!-- Input untuk total transaksi -->
+                                                                <div class="form-group">
+                                                                    <label for="total">Transaksi:</label>
+                                                                    <input type="number" name="total" value="<?= $transaksi ?>" class="form-control" required>
+                                                                </div>
+
+                                                                <!-- Input untuk tanggal transaksi -->
+                                                                <div class="form-group">
+                                                                    <label for="tanggal_transaksi">Tanggal Transaksi:</label>
+                                                                    <input type="date" name="tanggal_transaksi" value="<?= $tanggal ?>" class="form-control" required>
+                                                                </div>
+                                                                <!-- <input type="Text" name="pesanan" value="<?= $pesanan ?>" class="form-control" required>
                                                                 <br>
                                                                 <input type="number" name="jumlah" value="<?= $jumlah ?>" class="form-control" required>
                                                                 <br>
                                                                 <input type="number" name="total" value="<?= $transaksi ?>" class="form-control" required>
-                                                                <br>
+                                                                <br> -->
                                                                 <input type="hidden" name="idc" value="<?= $idc; ?>">
                                                                 <input type="hidden" name="idp" value="<?= $idp; ?>">
                                                                 <button type="submit" class="btn btn-primary" name="editpesanan"> Submit </button>
@@ -332,6 +368,8 @@ require 'cek.php';
                 <form method="post">
                     <div class="modal-body">
 
+                        <div class="form-group">
+                        <label for="outlet_pesanan">Customer:</label>
                         <select name="customernya" class="form-control">
                             <?php
                             $ambildata = mysqli_query($conn, "select * from customer");
@@ -347,15 +385,42 @@ require 'cek.php';
                             }
                             ?>
                         </select>
-                        <br>
-                        <input type="Text" name="pesanan" placeholder="Pesanan" class="form-control" required>
-                        <br>
-                        <input type="number" name="qty" placeholder="Jumlah" class="form-control" required>
-                        <br>
-                        <input type="number" name="total" placeholder="Transaksi" class="form-control" required>
-                        <br>
+                        </div>
+                        
+                        <!-- Input untuk jenis pesanan -->
+                        <div class="form-group">
+                            <label for="pesanan">Pesanan:</label>
+                            <input type="text" name="pesanan" placeholder="Pesanan" class="form-control" required>
+                        </div>
 
-                        <button type="submit" class="btn btn-primary" name="pesananmasuk"> Submit </button>
+                        <!-- Dropdown untuk memilih jenis pesanan -->
+                        <div class="form-group">
+                            <label for="outlet_pesanan">Outlet Pesanan:</label>
+                            <select class="form-control" id="outlet_pesanan" name="outlet_pesanan">
+                                <option value="Onty 1">Onty 1</option>
+                                <option value="Onty 2">Onty 2</option>
+                            </select>
+                        </div>
+
+                        <!-- Input untuk jumlah pesanan (qty) -->
+                        <div class="form-group">
+                            <label for="qty">Jumlah:</label>
+                            <input type="number" name="qty" placeholder="Jumlah" class="form-control" required>
+                        </div>
+
+                        <!-- Input untuk total transaksi -->
+                        <div class="form-group">
+                            <label for="total">Transaksi:</label>
+                            <input type="number" name="total" placeholder="Transaksi" class="form-control" required>
+                        </div>
+
+                        <!-- Input untuk tanggal transaksi -->
+                        <div class="form-group">
+                            <label for="tanggal_transaksi">Tanggal Transaksi:</label>
+                            <input type="date" name="tanggal_transaksi" placeholder="Tanggal Transaksi" class="form-control" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" name="pesananmasuk">Submit</button>
                     </div>
                 </form>
 

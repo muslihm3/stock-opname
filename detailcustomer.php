@@ -26,7 +26,7 @@ $totaltransaksi = $fetch['total'];
 
 $ambil = mysqli_query($conn, "select * from pesanan where idcustomer='$idcustomer'");
 while ($row = mysqli_fetch_array($ambil)) {
-    $label[] = $row['tanggal'];
+    $label[] = $row['tanggal_transaksi'];
     $query = mysqli_query($conn, "select sum(transaksi) as transaksi from pesanan where tanggal='" . $row['tanggal'] . "'");
     $row = $query->fetch_array();
     $totaltransaksipesanan[] = $row['transaksi'];
@@ -252,7 +252,7 @@ while ($row = mysqli_fetch_array($ambil)) {
                                                 <div class="col mr-2">
                                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                         Total Transaksi</div>
-                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?= 'Rp. ' . $totaltransaksi; ?></div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?= 'Rp. ' . number_format( $totaltransaksi,0,",",".") ?></div>
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -292,7 +292,7 @@ while ($row = mysqli_fetch_array($ambil)) {
                                         $ambilmasuk = mysqli_query($conn, "select * from pesanan where idcustomer='$idcustomer'");
                                         $i = 1;
                                         while ($data = mysqli_fetch_array($ambilmasuk)) {
-                                            $tanggal = $data['tanggal'];
+                                            $tanggal = $data['tanggal_transaksi'];
                                             $pesanan = $data['pesanan'];
                                             $qty = $data['jumlah'];
                                             $total = $data['transaksi'];
@@ -303,7 +303,7 @@ while ($row = mysqli_fetch_array($ambil)) {
                                                 <td><?= $tanggal; ?></td>
                                                 <td><?= $pesanan; ?></td>
                                                 <td><?= $qty; ?></td>
-                                                <td><?= 'Rp. ' . $total; ?></td>
+                                                <td><?= 'Rp. ' . number_format( $total,0,",",".")?></td>
 
                                             </tr>
 
@@ -360,7 +360,7 @@ while ($row = mysqli_fetch_array($ambil)) {
 
                 <!-- Modal body -->
                 <form method="post">
-                    <div class="modal-body">
+                    <!-- <div class="modal-body">
 
                         <input type="hidden" name="customernya" value="<?= $idcustomer; ?>">
                         <input type="Text" name="pesanan" placeholder="Pesanan" class="form-control" required>
@@ -369,9 +369,51 @@ while ($row = mysqli_fetch_array($ambil)) {
                         <br>
                         <input type="number" name="total" placeholder="Transaksi" class="form-control" required>
                         <br>
+                        <input type="date" name="tanggal_transaksi" placeholder="Tanggal Transaksi" class="form-control" required>
+                        <br>
 
                         <button type="submit" class="btn btn-primary" name="pesananmasuk"> Submit </button>
+                    </div> -->
+                    <div class="modal-body">
+                        <input type="hidden" name="customernya" value="<?= $idcustomer; ?>">
+                        
+                        <!-- Input untuk jenis pesanan -->
+                        <div class="form-group">
+                            <label for="pesanan">Pesanan:</label>
+                            <input type="text" name="pesanan" placeholder="Pesanan" class="form-control" required>
+                        </div>
+
+                        <!-- Dropdown untuk memilih jenis pesanan -->
+                        <div class="form-group">
+                            <label for="outlet_pesanan">Outlet Pesanan:</label>
+                            <select class="form-control" id="outlet_pesanan" name="outlet_pesanan">
+                                <option value="Onty 1">Onty 1</option>
+                                <option value="Onty 2">Onty 2</option>
+                            </select>
+                        </div>
+
+                        <!-- Input untuk jumlah pesanan (qty) -->
+                        <div class="form-group">
+                            <label for="qty">Jumlah:</label>
+                            <input type="number" name="qty" placeholder="Jumlah" class="form-control" required>
+                        </div>
+
+                        <!-- Input untuk total transaksi -->
+                        <div class="form-group">
+                            <label for="total">Transaksi:</label>
+                            <input type="number" name="total" placeholder="Transaksi" class="form-control" required>
+                        </div>
+
+                        <!-- Input untuk tanggal transaksi -->
+                        <div class="form-group">
+                            <label for="tanggal_transaksi">Tanggal Transaksi:</label>
+                            <input type="date" name="tanggal_transaksi" placeholder="Tanggal Transaksi" class="form-control" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" name="pesananmasuk">Submit</button>
                     </div>
+
+
                 </form>
 
 

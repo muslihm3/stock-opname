@@ -54,6 +54,9 @@ if (isset($_POST['pesananmasuk'])) {
     $pesanan = $_POST['pesanan'];
     $qty = $_POST['qty'];
     $total = $_POST['total'];
+    $tgl_transaksi = $_POST['tanggal_transaksi']; // Mengambil nilai tanggal transaksi dari formulir
+    $outlet_pesanan = $_POST['outlet_pesanan'];
+    
 
     $cekcustomer = mysqli_query($conn, "select * from customer where idcustomer='$customernya'");
     $ambildata = mysqli_fetch_array($cekcustomer);
@@ -63,7 +66,7 @@ if (isset($_POST['pesananmasuk'])) {
     $tambahjumlah = $jumlah + $qty;
     $tambahtotal = $totaltransaksi + $total;
 
-    $addtopesanan = mysqli_query($conn, "insert into pesanan (idcustomer, pesanan, jumlah, transaksi) values('$customernya','$pesanan','$qty','$total' )");
+    $addtopesanan = mysqli_query($conn, "insert into pesanan (idcustomer, pesanan, jumlah, transaksi,tanggal_transaksi, outlet) values('$customernya','$pesanan','$qty','$total', '$tgl_transaksi', '$outlet_pesanan' )");
     $updatepesanan = mysqli_query($conn, "update customer set qty='$tambahjumlah', total='$tambahtotal' where idcustomer='$customernya'");
     if ($addtopesanan && $updatepesanan) {
         header('location:pesanan.php');
@@ -109,6 +112,8 @@ if (isset($_POST['editpesanan'])) {
     $pesanan = $_POST['pesanan'];
     $jumlah = $_POST['jumlah'];
     $transaksi = $_POST['total'];
+    $tanggal_transaksi = $_POST['tanggal_transaksi'];
+    $outlet_pesanan = $_POST['outlet_pesanan']; //
 
     $cekcustomer = mysqli_query($conn, "select * from customer where idcustomer='$idc'");
     $customernya = mysqli_fetch_array($cekcustomer);
@@ -127,7 +132,7 @@ if (isset($_POST['editpesanan'])) {
         $kurangijuml = $totaljuml + $selisihjuml;
         $kurangitrans = $totaltrans + $selisihtrans;
         $ksekarang = mysqli_query($conn, "update customer set qty='$kurangijuml', total='$kurangitrans' where idcustomer='$idc'");
-        $updatenya = mysqli_query($conn, "update pesanan set pesanan='$pesanan', jumlah='$jumlah', transaksi='$transaksi' where idpesanan='$idp'");
+        $updatenya = mysqli_query($conn, "update pesanan set pesanan='$pesanan', jumlah='$jumlah', transaksi='$transaksi' , tanggal_transaksi='$tanggal_transaksi', outlet='$outlet_pesanan' where idpesanan='$idp'");
         if ($ksekarang && $updatenya) {
             header('location:pesanan.php');
         } else {
@@ -140,7 +145,7 @@ if (isset($_POST['editpesanan'])) {
         $kurangijuml = $totaljuml - $selisihjuml;
         $kurangitrans = $totaltrans - $selisihtrans;
         $ksekarang = mysqli_query($conn, "update customer set qty='$kurangijuml', total='$kurangitrans' where idcustomer='$idc'");
-        $updatenya = mysqli_query($conn, "update pesanan set pesanan='$pesanan', jumlah='$jumlah', transaksi='$transaksi' where idpesanan='$idp'");
+        $updatenya = mysqli_query($conn, "update pesanan set pesanan='$pesanan', jumlah='$jumlah', transaksi='$transaksi' , tanggal_transaksi='$tanggal_transaksi', outlet='$outlet_pesanan'  where idpesanan='$idp'");
         if ($ksekarang && $updatenya) {
             header('location:pesanan.php');
         } else {
@@ -156,6 +161,7 @@ if (isset($_POST['hapuspesanan'])) {
     $idp = $_POST['idp'];
     $qty = $_POST['kty'];
     $total = $_POST['total'];
+    
 
     $getcustomer = mysqli_query($conn, "select * from customer where idcustomer='$idc'");
     $customer = mysqli_fetch_array($getcustomer);
