@@ -404,6 +404,13 @@ while ($row = mysqli_fetch_array($ambil)) {
                             <input type="number" name="total" placeholder="Transaksi" class="form-control" required>
                         </div>
 
+                        <!-- Input untuk Admin -->
+                        <div class="form-group">
+                            <label for="tanggal_transaksi">Admin</label>
+                            <input type="text" name="admin" placeholder="Admin" class="form-control" required>
+                        </div>
+
+
                         <!-- Input untuk tanggal transaksi -->
                         <div class="form-group">
                             <label for="tanggal_transaksi">Tanggal Transaksi:</label>

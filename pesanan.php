@@ -171,6 +171,7 @@ require 'cek.php';
                                             <th>Outlet</th>
                                             <th>Jumlah</th>
                                             <th>Transaksi</th>
+                                            <th>Admin</th>
                                             <th>Setting</th>
 
                                         </tr>
@@ -200,6 +201,7 @@ require 'cek.php';
                                             $pesanan = $data['pesanan'];
                                             $jumlah = $data['jumlah'];
                                             $transaksi = $data['transaksi'];
+                                            $admin = $data['admin'];
                                             $idc = $data['idcustomer'];
                                             $idp = $data['idpesanan'];
 
@@ -212,6 +214,7 @@ require 'cek.php';
                                                 <td><?= $outlet_pesanan; ?></td>
                                                 <td><?= $jumlah; ?></td>
                                                 <td><?= 'Rp. ' .  number_format( $transaksi,0,",",".") ?></td>
+                                                <td><?= $admin; ?></td>
                                                 <td>
                                                     <a href="detailcustomer.php?id=<?= $idc; ?>" class="btn btn-info">View</a>
                                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit<?= $idp; ?>">
@@ -269,6 +272,13 @@ require 'cek.php';
                                                                     <label for="tanggal_transaksi">Tanggal Transaksi:</label>
                                                                     <input type="date" name="tanggal_transaksi" value="<?= $tanggal ?>" class="form-control" required>
                                                                 </div>
+                                                                
+                                                                <!-- Input untuk Admin -->
+                                                                <div class="form-group">
+                                                                    <label for="tanggal_transaksi">Admin</label>
+                                                                    <input type="text" name="admin" value="<?= $admin ?>" class="form-control" required>
+                                                                </div>
+
                                                                 <!-- <input type="Text" name="pesanan" value="<?= $pesanan ?>" class="form-control" required>
                                                                 <br>
                                                                 <input type="number" name="jumlah" value="<?= $jumlah ?>" class="form-control" required>
@@ -412,6 +422,12 @@ require 'cek.php';
                         <div class="form-group">
                             <label for="total">Transaksi:</label>
                             <input type="number" name="total" placeholder="Transaksi" class="form-control" required>
+                        </div>
+
+                        <!-- Input untuk Admin -->
+                        <div class="form-group">
+                            <label for="tanggal_transaksi">Admin</label>
+                            <input type="text" name="admin" placeholder="Admin" class="form-control" required>
                         </div>
 
                         <!-- Input untuk tanggal transaksi -->
