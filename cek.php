@@ -2,5 +2,5 @@
 //if blm login
 
 if($_SESSION['role']==""){
-		header("location:login.php?pesan=gagal");
+		header("location:login.php");
 	}

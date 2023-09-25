@@ -150,6 +150,17 @@ require 'cek.php';
                                 Tambah Customer
                             </button>
                         </div>
+                        <br>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <form  class="form-inline">
+                                     <input type="number" id="minTotalOrder" name="minTotalOrder" class="form-control ml-3" min="0" placeholder="Minimum Total Order" />
+                                    <button id="filterBtn" class="btn btn-info ml-3">Filter</button>
+                                </form>
+                            </div>
+                        </div>
+                       
+
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -184,7 +195,7 @@ require 'cek.php';
                                             <tr>
                                                 <td><?= $i++; ?></td>
                                                 <td><?= $namacustomer; ?></td>
-                                                <td><?= $numbercustomer; ?></td>
+                                                <td><a href="https://wa.me/<?= $numbercustomer; ?>" target="_blank"><?= $numbercustomer; ?></a></td>
                                                 <td><?= $totalorder . ' Kali'; ?></td>
                                                 <td><?= $totalpesanan; ?></td>
                                                 <td><?= 'Rp. ' .  number_format( $totaltransaksi,0,",",".")  ?></td>
@@ -322,6 +333,29 @@ require 'cek.php';
             </div>
         </div>
     </div>
+
+
+    <!-- Skrip JavaScript untuk filter -->
+    <script>
+        document.getElementById("filterBtn").addEventListener("click", function (e) {
+            e.preventDefault(); // Ini akan mencegah reload halaman default saat tombol ditekan.
+
+            var minTotalOrder = parseInt(document.getElementById("minTotalOrder").value);
+
+            // Loop melalui setiap baris tabel dan sembunyikan yang tidak memenuhi kriteria
+            var tableRows = document.querySelectorAll("#dataTable tbody tr");
+            tableRows.forEach(function (row) {
+                var totalOrder = parseInt(row.cells[3].textContent.split(" ")[0]); // Ambil jumlah pesanan dari kolom ke-4
+
+                if (isNaN(totalOrder) || totalOrder < minTotalOrder) {
+                    row.style.display = "none"; // Sembunyikan baris yang tidak memenuhi kriteria
+                } else {
+                    row.style.display = ""; // Tampilkan baris yang memenuhi kriteria
+                }
+            });
+        });
+    </script>
+
 
 
     <!-- Bootstrap core JavaScript-->
