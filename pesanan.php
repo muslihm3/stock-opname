@@ -145,9 +145,16 @@ require 'cek.php';
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
+                            
+
                             <!-- Button to Open the Modal -->
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                 Pesanan Masuk
+                            </button>
+
+                            <!-- Button to Open the Import Modal -->
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#importModal">
+                                Import Data
                             </button>
                             <br>
                             <div class="row mt-4">
@@ -445,6 +452,27 @@ require 'cek.php';
         </div>
     </div>
 
+     <!-- Modal Impor Data -->
+    <div class="modal fade" id="importModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Header Modal -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Import Data</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Isi Modal -->
+                <form method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="file" name="file" id="file" accept=".xls, .xlsx" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" name="importData">Import</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

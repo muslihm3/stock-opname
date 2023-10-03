@@ -42,7 +42,40 @@ if (isset($_POST['addnewCustomer'])) {
     }
 }
 
+// Import Customer
+require 'vendor/autoload.php'; // Sesuaikan dengan lokasi file autoload.php PhpSpreadsheet Anda
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
+if (isset($_POST['importData'])) {
+    if ($_FILES['file']['name']) {
+        $inputFileName = $_FILES['file']['tmp_name'];
+        try {
+            $spreadsheet = IOFactory::load($inputFileName);
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            foreach ($sheetData as $row) {
+                $namacustomer = $row['A'];  
+                $numbercustomer = $row['B'];
+                $emailcustomer = $row['C'];
+
+                // Periksa apakah nomor customer sudah ada dalam database
+                $cekNomorCustomer = mysqli_query($conn, "SELECT * FROM customer WHERE numbercustomer = '$numbercustomer'");
+                $count = mysqli_num_rows($cekNomorCustomer);
+
+                if ($count > 0) {
+                    // Nomor customer sudah ada dalam database, berikan pesan atau lewati entri ini
+                    echo "<script>alert('Nomor customer sudah ada dalam database.')</script>";
+                } else {
+                    // Nomor customer belum ada dalam database, tambahkan pelanggan baru
+                    $addtotable = mysqli_query($conn, "INSERT INTO customer (namacustomer, numbercustomer, emailcustomer) VALUES ('$namacustomer','$numbercustomer','$emailcustomer')");
+                }
+            }
+
+            header('location:customer.php');
+        } catch (Exception $e) {
+            echo 'Error loading file: ', $e->getMessage();
+        }
+    }
+}
 
 
 
