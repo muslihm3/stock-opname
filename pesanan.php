@@ -199,7 +199,7 @@ require 'cek.php';
                                         } else {
                                             $ambilpesanan = mysqli_query($conn, "select * from pesanan p, customer c where c.idcustomer = p.idcustomer order by idpesanan DESC");
                                         }
-
+                                
 
                                         while ($data = mysqli_fetch_array($ambilpesanan)) {
                                             $tanggal = $data['tanggal_transaksi'];
@@ -467,7 +467,7 @@ require 'cek.php';
                         <div class="form-group">
                             <input type="file" name="file" id="file" accept=".xls, .xlsx" required>
                         </div>
-                        <button type="submit" class="btn btn-primary" name="importData">Import</button>
+                        <button type="submit" class="btn btn-primary" name="importPesanan">Import</button>
                     </div>
                 </form>
             </div>

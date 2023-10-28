@@ -158,9 +158,10 @@ require 'cek.php';
                         <br>
                         <div class="row mt-2">
                             <div class="col">
-                                <form  class="form-inline">
+                                <form method="POST" class="form-inline">
                                      <input type="number" id="minTotalOrder" name="minTotalOrder" class="form-control ml-3" min="0" placeholder="Minimum Total Order" />
-                                    <button id="filterBtn" class="btn btn-info ml-3">Filter</button>
+                                     <input  id="searchCustomer" name="searchCustomer" class="form-control ml-3" placeholder="Search Customer" />
+                                    <button type="submit" id="filterBtn" class="btn btn-info ml-3">Filter</button>
                                 </form>
                             </div>
                         </div>
@@ -182,7 +183,38 @@ require 'cek.php';
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $ambilcustomer = mysqli_query($conn, "select * from customer");
+
+
+                                $minTotalOrder = isset($_POST['minTotalOrder']) ? $_POST['minTotalOrder'] : null;
+                                $searchKeyword = isset($_POST['searchCustomer']) ? $_POST['searchCustomer'] : '';
+
+                                $query = "SELECT c.*, COUNT(p.idpesanan) as totalorder 
+                                        FROM customer c 
+                                        LEFT JOIN pesanan p ON c.idcustomer = p.idcustomer";
+
+                                if (!empty($searchKeyword)) {
+                                    $query .= " WHERE c.namacustomer LIKE '%$searchKeyword%'";
+                                }
+
+                                $query .= " GROUP BY c.idcustomer ";
+
+                                if ($minTotalOrder !== null) {
+                                    // Ubah query ini agar mencakup kasus totalorder 0
+                                    $query .= " HAVING totalorder > '$minTotalOrder'";
+                                }
+
+                                if ($minTotalOrder === null ) {
+                                    $query .= "  LIMIT 100"; // Tambahkan LIMIT 100 saat filter tidak digunakan
+                                }
+                                if (!$minTotalOrder && empty($searchKeyword)) {
+                                    $query = " SELECT * FROM customer ORDER BY idcustomer DESC LIMIT 100";
+                                }
+
+                                $ambilcustomer = mysqli_query($conn, $query);
+
+
+
+                                        // $ambilcustomer = mysqli_query($conn, "select * from customer");
                                         $i = 1;
                                         while ($data = mysqli_fetch_array($ambilcustomer)) {
                                             $namacustomer = $data['namacustomer'];
@@ -364,7 +396,7 @@ require 'cek.php';
     </div>
 
     <!-- Skrip JavaScript untuk filter -->
-    <script>
+    <!-- <script>
         document.getElementById("filterBtn").addEventListener("click", function (e) {
             e.preventDefault(); // Ini akan mencegah reload halaman default saat tombol ditekan.
 
@@ -382,7 +414,7 @@ require 'cek.php';
                 }
             });
         });
-    </script>
+    </script> -->
 
 
 

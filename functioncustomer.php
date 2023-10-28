@@ -43,7 +43,7 @@ if (isset($_POST['addnewCustomer'])) {
 }
 
 // Import Customer
-require 'vendor/autoload.php'; // Sesuaikan dengan lokasi file autoload.php PhpSpreadsheet Anda
+require 'vendor/autoload.php'; 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 if (isset($_POST['importData'])) {
