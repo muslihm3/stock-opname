@@ -193,15 +193,15 @@ require 'cek.php';
                                         LEFT JOIN pesanan p ON c.idcustomer = p.idcustomer";
 
                                 if (!empty($searchKeyword)) {
-                                    $query .= " WHERE c.namacustomer LIKE '%$searchKeyword%'";
+                                    $query .= " WHERE (c.namacustomer LIKE '%$searchKeyword%' OR c.numbercustomer LIKE '%$searchKeyword%')";
                                 }
 
                                 $query .= " GROUP BY c.idcustomer ";
 
                                 if ($minTotalOrder !== null) {
                                     // Ubah query ini agar mencakup kasus totalorder 0
-                                    $query .= " HAVING totalorder > '$minTotalOrder'";
-                                }
+                                    $query .= " HAVING totalorder >= '$minTotalOrder'";
+                                }else {$query = " SELECT * FROM customer ORDER BY idcustomer DESC LIMIT 100";}
 
                                 if ($minTotalOrder === null ) {
                                     $query .= "  LIMIT 100"; // Tambahkan LIMIT 100 saat filter tidak digunakan

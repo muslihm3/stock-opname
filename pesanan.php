@@ -159,10 +159,11 @@ require 'cek.php';
                             <br>
                             <div class="row mt-4">
                                 <div class="col">
-                                    <form method="post" class="form-inline">
+                                    <form method="POST" class="form-inline">
                                         <input type="date" name="tgl_mulai" class="form-control">
                                         <input type="date" name="tgl_selesai" class="form-control ml-3">
-                                        <button type="submit" name="filter_tgl" class="btn btn-info ml-3">Filter</button>
+                                        <input  id="searchPesanan" name="searchPesanan" class="form-control ml-3" placeholder="Search Pesanan" />
+                                        <button type="submit" name="filter" class="btn btn-info ml-3">Filter</button>
                                     </form>
                                 </div>
                             </div>
@@ -185,20 +186,50 @@ require 'cek.php';
                                     </thead>
                                     <tbody>
                                         <?php
-
-                                        if (isset($_POST['filter_tgl'])) {
+                                        if (isset($_POST['filter'])) {
                                             $mulai = $_POST['tgl_mulai'];
                                             $selesai = $_POST['tgl_selesai'];
+                                            $search = $_POST['searchPesanan'];
 
-                                            if ($mulai != null || $selesai != null) {
+                                            $query = "SELECT * FROM pesanan p, customer c WHERE c.idcustomer = p.idcustomer";
 
-                                                $ambilpesanan = mysqli_query($conn, "select * from pesanan p, customer c where c.idcustomer = p.idcustomer and tanggal BETWEEN '$mulai' and DATE_ADD('$selesai',INTERVAL 1 DAY) order by idpesanan DESC");
-                                            } else {
-                                                $ambilpesanan = mysqli_query($conn, "select * from pesanan p, customer c where c.idcustomer = p.idcustomer order by idpesanan DESC");
+                                            if (!empty($mulai) && !empty($selesai)) {
+                                                $query .= " AND tanggal_transaksi BETWEEN '$mulai' AND '$selesai'";
+                                            } elseif (empty($search)) {
+                                                // Jika tanggal tidak diisi dan search tidak diisi, tampilkan data dari satu bulan terakhir
+                                                $lastMonth = date("Y-m-d", strtotime("-1 month"));
+                                                $query .= " AND tanggal_transaksi >= '$lastMonth'";
                                             }
+
+                                            // Tambahkan filter pencarian pesanan dan customer
+                                            if (!empty($search)) {
+                                                $query .= " AND (c.namacustomer LIKE '%$search%' OR p.pesanan LIKE '%$search%')";
+                                            }
+
+                                            $query .= " ORDER BY idpesanan DESC";
+
+                                            $ambilpesanan = mysqli_query($conn, $query);
                                         } else {
-                                            $ambilpesanan = mysqli_query($conn, "select * from pesanan p, customer c where c.idcustomer = p.idcustomer order by idpesanan DESC");
+                                            // Jika filter tidak digunakan, tampilkan data dari satu bulan terakhir
+                                            $lastMonth = date("Y-m-d", strtotime("-1 month"));
+                                            $query = "SELECT * FROM pesanan p, customer c WHERE c.idcustomer = p.idcustomer AND tanggal_transaksi >= '$lastMonth' ORDER BY idpesanan DESC";
+                                            $ambilpesanan = mysqli_query($conn, $query);
                                         }
+
+
+                                        // if (isset($_POST['filter'])) {
+                                        //     $mulai = $_POST['tgl_mulai'];
+                                        //     $selesai = $_POST['tgl_selesai'];
+
+                                        //     if ($mulai != null || $selesai != null) {
+
+                                        //         $ambilpesanan = mysqli_query($conn, "select * from pesanan p, customer c where c.idcustomer = p.idcustomer and tanggal_transaksi BETWEEN '$mulai' and DATE_ADD('$selesai',INTERVAL 1 DAY) order by idpesanan DESC");
+                                        //     } else {
+                                        //         $ambilpesanan = mysqli_query($conn, "select * from pesanan p, customer c where c.idcustomer = p.idcustomer order by idpesanan DESC");
+                                        //     }
+                                        // } else {
+                                        //     $ambilpesanan = mysqli_query($conn, "select * from pesanan p, customer c where c.idcustomer = p.idcustomer order by idpesanan DESC");
+                                        // }
                                 
 
                                         while ($data = mysqli_fetch_array($ambilpesanan)) {
