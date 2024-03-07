@@ -255,6 +255,7 @@ require 'cek.php';
                                                 <td><?= $admin; ?></td>
                                                 <td>
                                                     <a href="detailcustomer.php?id=<?= $idc; ?>" class="btn btn-info">View</a>
+                                                     <a href="nota.php?id=<?= $idp; ?>" class="btn btn-warning">Nota</a>
                                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit<?= $idp; ?>">
                                                         Edit
                                                     </button>

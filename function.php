@@ -33,7 +33,7 @@ if (isset($_POST['barangmasuk'])) {
     $tambahstocks = $stocks + $qty;
 
     //GAMBAR
-    $allowed_extention = array('png', 'jpg');
+    $allowed_extention = array('png', 'jpg','jpeg');
     $nama = $_FILES['file']['name']; //mengambil nama file gambar
     $dot = explode('.', $nama);
     $ekstensi = strtolower(end($dot)); //ekstensi

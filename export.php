@@ -18,48 +18,47 @@ require 'cek.php';
 
 <body>
 <div class="container">
-			<h2>Stock Bahan</h2>
-			<h4>(Inventory)</h4>
-				<div class="data-tables datatable-dark">
-					
-                    <table class="table table-bordered" id="mauexport" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Nama Barang</th>
-                                            <th>Deskripsi</th>
-                                            <th>Stock</th>
-                                            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $ambilstock = mysqli_query($conn,"select * from stock");
-                                        $i = 1;
-                                        while($data=mysqli_fetch_array($ambilstock)){
-                                            $namabarang = $data['namabarang'];
-                                            $deskripsi = $data['deskripsi'];
-                                            $stock = $data['stock'];
-                                            $idb = $data['idbarang'];
+    <h2>Stock Bahan</h2>
+    <h4>(Inventory)</h4>
+        <div class="data-tables datatable-dark">
+            <table class="table table-bordered" id="mauexport" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Barang</th>
+                                    <th>Deskripsi</th>
+                                    <th>Stock</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $ambilstock = mysqli_query($conn,"select * from stock");
+                                $i = 1;
+                                while($data=mysqli_fetch_array($ambilstock)){
+                                    $namabarang = $data['namabarang'];
+                                    $deskripsi = $data['deskripsi'];
+                                    $stock = $data['stock'];
+                                    $idb = $data['idbarang'];
 
-                                        ?>
-                                        <tr>
-                                            <td><?php echo $i++;?></td>
-                                            <td><?php echo $namabarang;?></td>
-                                            <td><?php echo $deskripsi;?></td>
-                                            <td><?php echo $stock;?></td>
-                                           
-                                        </tr>
+                                ?>
+                                <tr>
+                                    <td><?php echo $i++;?></td>
+                                    <td><?php echo $namabarang;?></td>
+                                    <td><?php echo $deskripsi;?></td>
+                                    <td><?php echo $stock;?></td>
+                                    
+                                </tr>
 
-                                        <?php
-                                        };
-                                        ?>
-                                       
-                                    </tbody>
-                                </table>
-					
+                                <?php
+                                };
+                                ?>
+                                
+                            </tbody>
+                        </table>
+            
 
-				</div>
+        </div>
 </div>
 	
 <script>
