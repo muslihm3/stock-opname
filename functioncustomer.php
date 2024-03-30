@@ -77,10 +77,6 @@ if (isset($_POST['importData'])) {
     }
 }
 
-
-
-
-
 //menambah pesanan
 if (isset($_POST['pesananmasuk'])) {
     $customernya = $_POST['customernya'];

@@ -131,6 +131,58 @@ require 'cek.php';
                         <i class="fa fa-bars"></i>
                     </button>
 
+
+                <ul class="navbar-nav ml-auto">
+                <!-- Nav Item - Alerts -->
+                    <li class="nav-item dropdown no-arrow mx-1">
+                        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-bell fa-fw"></i>
+                            <!-- Counter - Alerts -->
+                            <span class="badge badge-danger badge-counter">3+</span>
+                        </a>
+                        <!-- Dropdown - Alerts -->
+                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="alertsDropdown">
+                            <h6 class="dropdown-header">
+                                Pemberitahuan
+                            </h6>
+                           <?php
+                            //stock habis
+                            $infostock = mysqli_query($conn, "select * from stock where stock < 1");
+
+                            while ($fetch = mysqli_fetch_array($infostock)) {
+                                $barang = $fetch['namabarang'];
+                            ?>
+                                <div class="alert alert-danger">
+                                    
+                                    <strong>Perhatian!</strong> Stock <?= $barang ?> Habis. Segera order <?= $barang ?> lagi!
+                                </div>
+
+                            <?php
+                            }
+                            ?>
+
+                            <?php
+                            //stock mau habis
+                            $infostock = mysqli_query($conn, "select * from stock where stock BETWEEN 1 AND 5");
+
+                            while ($fetch = mysqli_fetch_array($infostock)) {
+                                $barang = $fetch['namabarang'];
+                                $sisa = $fetch['stock'];
+                            ?>
+                                <div class="alert alert-warning">
+                                  
+                                    <strong>Peringatan!</strong> Stock <?= $barang ?> sisa <?= $sisa ?>
+                                </div>
+
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    </li>
+                </ul>
+                
                 </nav>
                 <!-- End of Topbar -->
 
@@ -153,38 +205,7 @@ require 'cek.php';
                         <div class="card-body">
 
 
-                            <?php
-                            //stock habis
-                            $infostock = mysqli_query($conn, "select * from stock where stock < 1");
-
-                            while ($fetch = mysqli_fetch_array($infostock)) {
-                                $barang = $fetch['namabarang'];
-                            ?>
-                                <div class="alert alert-danger">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <strong>Perhatian!</strong> Stock <?= $barang ?> Habis. Segera order <?= $barang ?> lagi!
-                                </div>
-
-                            <?php
-                            }
-                            ?>
-
-                            <?php
-                            //stock mau habis
-                            $infostock = mysqli_query($conn, "select * from stock where stock BETWEEN 1 AND 5");
-
-                            while ($fetch = mysqli_fetch_array($infostock)) {
-                                $barang = $fetch['namabarang'];
-                                $sisa = $fetch['stock'];
-                            ?>
-                                <div class="alert alert-warning">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <strong>Peringatan!</strong> Stock <?= $barang ?> sisa <?= $sisa ?>
-                                </div>
-
-                            <?php
-                            }
-                            ?>
+                           
 
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
